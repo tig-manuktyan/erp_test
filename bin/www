@@ -1,0 +1,16 @@
+import app from "../app.js";
+import { sequelize } from "../lib/service/src/db_connect.js";
+import configService from "./../lib/shared/src/config/config.service.js";
+
+const server = async () => {
+  try {
+    const PORT = configService.get("app.http.port");
+    await sequelize.authenticate();
+    await sequelize.sync();
+    app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+  } catch (e) {
+    console.error("Error starting the server:", e);
+  }
+};
+
+server();
